@@ -1,4 +1,4 @@
-package ru.gymhub.gymhub.authorisation;
+package ru.gymhub.gymhub.authorisation.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
