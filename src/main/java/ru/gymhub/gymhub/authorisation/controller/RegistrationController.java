@@ -1,5 +1,6 @@
 package ru.gymhub.gymhub.authorisation.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,7 @@ public class RegistrationController {
     private final RegistrationService registrationService;
 
     @PostMapping("/registration")
-    public ResponseEntity<Void> register(@RequestBody RegisterRequest request){
+    public ResponseEntity<Void> register(@Valid @RequestBody RegisterRequest request){
         registrationService.register(request);
         System.out.println(request);
         return ResponseEntity.ok().build();
