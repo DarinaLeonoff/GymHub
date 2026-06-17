@@ -14,7 +14,11 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((requests) -> requests.anyRequest().authenticated())
+        http
+                .csrf(csrf -> csrf.disable()) // блокировка подозрительных запросов
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/registration").permitAll()
+                        .anyRequest().authenticated())
                 .formLogin((form) -> form.permitAll()).logout(LogoutConfigurer::permitAll);
         return http.build();
     }
