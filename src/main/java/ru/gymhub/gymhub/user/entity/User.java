@@ -31,7 +31,8 @@ public class User {
     private boolean isActive;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name="user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name="user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
     @Enumerated(value = EnumType.STRING)
     private Set<Role> roles;
 }
