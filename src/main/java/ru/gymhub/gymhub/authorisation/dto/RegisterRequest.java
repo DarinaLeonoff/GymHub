@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.gymhub.gymhub.authorisation.validation.ValidPassword;
 
-//todo
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
