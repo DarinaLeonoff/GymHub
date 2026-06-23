@@ -31,6 +31,8 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
+
+    //todo replace logic to service lair
     @PostMapping("/login")
     public LoginResponse login(@Valid @RequestBody LoginRequest request) {
         authenticationManager.authenticate(
