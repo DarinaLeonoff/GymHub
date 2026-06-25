@@ -22,8 +22,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable()) // блокировка подозрительных запросов
                 .authorizeHttpRequests(
-                        (requests) -> requests.requestMatchers("/registration").permitAll().requestMatchers("/login")
-                                .permitAll().anyRequest().authenticated())
+                        (requests) -> requests
+                                .requestMatchers(
+                                        "/registration",
+                                        "/login",
+                                        "/swagger-ui/**",
+                                        "/v3/api-docs/**"
+                                ).permitAll().anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
