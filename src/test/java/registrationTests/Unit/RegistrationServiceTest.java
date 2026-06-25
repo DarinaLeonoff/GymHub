@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.gymhub.gymhub.authorisation.dto.RegisterRequest;
-import ru.gymhub.gymhub.authorisation.service.RegistrationService;
+import ru.gymhub.gymhub.authorisation.service.AuthService;
 import ru.gymhub.gymhub.user.UserRepository;
 import ru.gymhub.gymhub.user.entity.User;
 
@@ -25,7 +25,7 @@ public class RegistrationServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private RegistrationService registrationService;
+    private AuthService registrationService;
 
     private RegisterRequest request = RegisterRequest.builder().email("user@test.com").firstName("Daria")
             .password("Password1!").build();

@@ -32,10 +32,6 @@ public class JWTService {
         return extractClaims(token).getSubject();
     }
 
-    public Date extractExpiration(String token) {
-        return extractClaims(token).getExpiration();
-    }
-
     public boolean isTokenValid(String token, UserDetails userDetails) {
         String username = extractUsername(token);
         return username.equals(userDetails.getUsername())
