@@ -14,8 +14,8 @@ The project aims to model a real-world business domain while applying modern bac
 
 ### Key Features
 
-- [ ] User registration
-- [ ] Authentication and authorization
+- [X] User registration
+- [X] Authentication and authorization
 - [ ] Gym management
 - [ ] Membership management
 - [ ] Training scheduling
@@ -103,25 +103,60 @@ http://localhost:8080/swagger-ui/index.html
 ### Prerequisites
 
 - Java 21
-- PostgreSQL
+- Maven 3.9+
+- Docker Desktop (optional)
+- PostgreSQL 17+
 
-### Configuration
+### Environment Variables
 
-TODO
+Create .env file from .env.example:
+```
+cp .env.example .env
+```
+
+Example:
+
+JWT_SECRET=your-jwt-secret
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+
+### Start PostgreSQL
+
+If Docker Compose is configured:
+
+docker compose up -d
 
 ### Run Application
 
-```bash
 mvn spring-boot:run
-```
 
 ---
+## Authentication
+
+The application uses JWT authentication.
+
+Authentication flow:
+
+1. Register user 
+2. Login using credentials 
+3. Receive JWT token 
+4. Send token in Authorization header
+
+Example:
+
+Authorization: Bearer <jwt-token>
+
+--- 
 
 ## Database
 
 ### Migrations
 
-Managed with Flyway.
+Database schema is managed with Flyway.
+
+Migration scripts are located in:
+
+src/main/resources/db/migration
 
 ### Schema
 
