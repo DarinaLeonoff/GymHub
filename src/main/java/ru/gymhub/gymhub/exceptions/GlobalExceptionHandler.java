@@ -33,7 +33,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserAlreadyExistsException.class)
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     public Response handleUserAlreadyExists(UserAlreadyExistsException e){
-        Response response = new Response(e);
-        return response;
+        return new Response(e);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    public Response handleNotFound(NotFoundException e){
+        return new Response(e);
     }
 }

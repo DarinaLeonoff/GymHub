@@ -13,6 +13,9 @@ import ru.gymhub.gymhub.authorisation.dto.RegisterRequest;
 import ru.gymhub.gymhub.exceptions.UserAlreadyExistsException;
 import ru.gymhub.gymhub.user.UserRepository;
 import ru.gymhub.gymhub.user.entity.User;
+import ru.gymhub.gymhub.user.service.UserMapper;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -22,17 +25,18 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper mapper;
 
     public void register(RegisterRequest request) {
         if(!userRepository.findByEmail(request.getEmail()).isEmpty()){
             throw new UserAlreadyExistsException("User with this email already registered");
         }
-        userRepository.save(User.builder()
-                .email(request.getEmail())
-                .firstName(request.getFirstName())
-                .passwordHash(passwordEncoder.encode(request.getPassword()))
-                .isActive(true)
-                .build());
+
+        User user = mapper.mapRegisterDtoToUser(request);
+        user.setActive(true);
+        user.setCreated(LocalDateTime.now());
+        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+        userRepository.save(user);
     }
 
     public LoginResponse login(LoginRequest request){
