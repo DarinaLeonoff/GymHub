@@ -21,12 +21,12 @@ public class User {
    private Long id;
 
    private String firstName;
-//   private String lastName;
-//   private LocalDate birthday;
-//   private String city;
-//   private String phoneNumber;
+   private String lastName;
+   private LocalDate birthDay;
+   private String city;
+   private String phone;
     private String email;
-//    private LocalDateTime registrationDate;
+    private LocalDateTime created;
     private String passwordHash;
     private boolean isActive;
 

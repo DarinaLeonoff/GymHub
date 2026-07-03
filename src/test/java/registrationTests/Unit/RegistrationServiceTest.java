@@ -11,6 +11,9 @@ import ru.gymhub.gymhub.authorisation.dto.RegisterRequest;
 import ru.gymhub.gymhub.authorisation.service.AuthService;
 import ru.gymhub.gymhub.user.UserRepository;
 import ru.gymhub.gymhub.user.entity.User;
+import ru.gymhub.gymhub.user.service.UserMapper;
+
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -24,15 +27,19 @@ public class RegistrationServiceTest {
     @Mock
     private PasswordEncoder passwordEncoder;
 
+    @Mock
+    private UserMapper mapper;
+
     @InjectMocks
     private AuthService registrationService;
 
     private RegisterRequest request = RegisterRequest.builder().email("user@test.com").firstName("Daria")
-            .password("Password1!").build();
+            .password("Password1!").birthDay(LocalDate.now().minusYears(20L)).city("City").phone("77777777777").build();
 
     @Test
     void shouldEncodePassword() {
         when(passwordEncoder.encode("Password1!")).thenReturn("encoded-password");
+        when(mapper.mapRegisterDtoToUser(request)).thenReturn(mapRegisterDto(request));
 
         registrationService.register(request);
 
@@ -47,6 +54,7 @@ public class RegistrationServiceTest {
 
     @Test
     void shouldBeSameEmail() {
+        when(mapper.mapRegisterDtoToUser(request)).thenReturn(mapRegisterDto(request));
         registrationService.register(request);
 
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
@@ -58,6 +66,7 @@ public class RegistrationServiceTest {
 
     @Test
     void shouldBeSameName() {
+        when(mapper.mapRegisterDtoToUser(request)).thenReturn(mapRegisterDto(request));
         registrationService.register(request);
 
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
@@ -69,6 +78,7 @@ public class RegistrationServiceTest {
 
     @Test
     void shouldBeActive() {
+        when(mapper.mapRegisterDtoToUser(request)).thenReturn(mapRegisterDto(request));
         registrationService.register(request);
 
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
@@ -78,4 +88,15 @@ public class RegistrationServiceTest {
         assertEquals(savedUser.isActive(), true);
     }
 
+    private User mapRegisterDto(RegisterRequest request){
+        return User.builder()
+                .email(request.getEmail())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .city(request.getCity())
+                .birthDay(request.getBirthDay())
+                .passwordHash(request.getPassword())
+                .phone(request.getPhone())
+                .build();
+    }
 }

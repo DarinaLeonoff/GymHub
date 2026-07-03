@@ -6,9 +6,6 @@ import org.springframework.stereotype.Service;
 import ru.gymhub.gymhub.exceptions.NotFoundException;
 import ru.gymhub.gymhub.user.UserRepository;
 import ru.gymhub.gymhub.user.dto.UserMeDto;
-import ru.gymhub.gymhub.user.entity.User;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,9 +14,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public UserMeDto getMe(UserDetails user){
-        return userMapper.mapUserToMe(
-                userRepository.findByEmail(
-                        user.getUsername()).orElseThrow(() -> new NotFoundException("User not found")));
+    public UserMeDto getMe(UserDetails user) {
+        return userMapper.mapUserToMe(userRepository.findByEmail(user.getUsername())
+                .orElseThrow(() -> new NotFoundException("User not found")));
     }
 }
