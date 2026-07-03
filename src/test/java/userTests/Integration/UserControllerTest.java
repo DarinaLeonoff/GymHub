@@ -50,7 +50,7 @@ class UserController {
     @WithMockUser(username = "test@mail.com")
     void getMeShouldReturn200() throws Exception {
 
-        mockMvc.perform(get("/me"))
+        mockMvc.perform(get("users/me"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email").value("test@mail.com"));
     }
