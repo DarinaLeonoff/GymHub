@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.gymhub.gymhub.user.dto.UserMeDto;
 import ru.gymhub.gymhub.user.service.UserService;
 
-@RestController
+@RestController("/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
