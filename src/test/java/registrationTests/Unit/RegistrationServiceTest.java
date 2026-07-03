@@ -33,7 +33,8 @@ public class RegistrationServiceTest {
     @InjectMocks
     private AuthService registrationService;
 
-    private RegisterRequest request = RegisterRequest.builder().email("user@test.com").firstName("Daria")
+    private RegisterRequest request = RegisterRequest.builder().email("user@test.com").firstName("Daria").lastName(
+            "Leonoff")
             .password("Password1!").birthDay(LocalDate.now().minusYears(20L)).city("City").phone("77777777777").build();
 
     @Test
@@ -75,6 +76,55 @@ public class RegistrationServiceTest {
 
         assertEquals("Daria", savedUser.getFirstName());
     }
+
+    @Test
+    void shouldBeSameLastName() {
+        when(mapper.mapRegisterDtoToUser(request)).thenReturn(mapRegisterDto(request));
+        registrationService.register(request);
+
+        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+        verify(userRepository).save(userCaptor.capture());
+        User savedUser = userCaptor.getValue();
+
+        assertEquals("Leonoff", savedUser.getLastName());
+    }
+
+    @Test
+    void shouldBeSameBirthday() {
+        when(mapper.mapRegisterDtoToUser(request)).thenReturn(mapRegisterDto(request));
+        registrationService.register(request);
+
+        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+        verify(userRepository).save(userCaptor.capture());
+        User savedUser = userCaptor.getValue();
+
+        assertEquals(LocalDate.now().minusYears(20L), savedUser.getBirthDay());
+    }
+
+    @Test
+    void shouldBeSameCity() {
+        when(mapper.mapRegisterDtoToUser(request)).thenReturn(mapRegisterDto(request));
+        registrationService.register(request);
+
+        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+        verify(userRepository).save(userCaptor.capture());
+        User savedUser = userCaptor.getValue();
+
+        assertEquals("City", savedUser.getCity());
+    }
+
+    @Test
+    void shouldBeSamePhonrNumber() {
+        when(mapper.mapRegisterDtoToUser(request)).thenReturn(mapRegisterDto(request));
+        registrationService.register(request);
+
+        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+        verify(userRepository).save(userCaptor.capture());
+        User savedUser = userCaptor.getValue();
+
+        assertEquals("77777777777", savedUser.getPhone());
+    }
+
 
     @Test
     void shouldBeActive() {
