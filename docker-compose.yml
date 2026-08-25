@@ -23,7 +23,7 @@ services:
   auth-gateway:
     build:
       context: .
-      dockerfile: authGateway/Dockerfile
+      dockerfile: authGateway/dockerfile
     container_name: gymhub-auth-gateway
     ports:
       - "8080:8080"
