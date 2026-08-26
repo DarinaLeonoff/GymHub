@@ -1,8 +1,8 @@
 package ru.gymhub.gymhub.exceptions;
 
-import lombok.AllArgsConstructor;
+import lombok.Data;
 
-
+@Data
 public class Response {
     private String exception;
     private String message;
