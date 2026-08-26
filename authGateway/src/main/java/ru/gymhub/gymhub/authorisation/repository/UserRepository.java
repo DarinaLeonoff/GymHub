@@ -1,7 +1,7 @@
-package ru.gymhub.gymhub.user;
+package ru.gymhub.gymhub.authorisation.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.gymhub.gymhub.user.entity.User;
+import ru.gymhub.gymhub.authorisation.entity.User;
 
 import java.util.Optional;
 

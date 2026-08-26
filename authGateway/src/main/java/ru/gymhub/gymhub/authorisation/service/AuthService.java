@@ -10,10 +10,9 @@ import org.springframework.stereotype.Service;
 import ru.gymhub.gymhub.authorisation.dto.LoginRequest;
 import ru.gymhub.gymhub.authorisation.dto.LoginResponse;
 import ru.gymhub.gymhub.authorisation.dto.RegisterRequest;
+import ru.gymhub.gymhub.authorisation.entity.User;
+import ru.gymhub.gymhub.authorisation.repository.UserRepository;
 import ru.gymhub.gymhub.exceptions.UserAlreadyExistsException;
-import ru.gymhub.gymhub.user.UserRepository;
-import ru.gymhub.gymhub.user.entity.User;
-import ru.gymhub.gymhub.user.service.UserMapper;
 
 import java.time.LocalDateTime;
 
@@ -28,11 +27,11 @@ public class AuthService {
     private final UserMapper mapper;
 
     public void register(RegisterRequest request) {
-        if(!userRepository.findByEmail(request.getEmail()).isEmpty()){
+        if(userRepository.findByEmail(request.getEmail()).isPresent()){
             throw new UserAlreadyExistsException("User with this email already registered");
         }
 
-        User user = mapper.mapRegisterDtoToUser(request);
+        User user = mapper.registerRequestToUser(request);
         user.setActive(true);
         user.setCreated(LocalDateTime.now());
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));

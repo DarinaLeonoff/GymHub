@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.gymhub.gymhub.authorisation.entity.User;
 import ru.gymhub.gymhub.authorisation.validation.ValidPassword;
 
 import java.time.LocalDate;
@@ -19,25 +20,12 @@ public class RegisterRequest {
     @NotBlank
     private String email;
 
-    @Size(min=1, max=50)
-    @NotBlank
-    private String firstName;
-
-    @Size(min=1, max=50)
-    private String lastName;
-
     @ValidPassword
     private String password;
 
     @NotNull
-    @Past
-    private LocalDate birthDay;
+    private User.AccountType accType;
 
-    @Size(min=1, max=100)
-    @NotBlank
-    private String city;
-
-    @Size(min = 11, max = 12)
-    @NotBlank
-    private String phone;
+    @NotNull
+    private User.RoleType role;
 }

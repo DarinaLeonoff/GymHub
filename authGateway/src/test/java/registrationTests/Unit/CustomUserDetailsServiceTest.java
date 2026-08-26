@@ -8,8 +8,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import ru.gymhub.gymhub.authorisation.service.CustomUserDetailsService;
-import ru.gymhub.gymhub.user.UserRepository;
-import ru.gymhub.gymhub.user.entity.User;
+import ru.gymhub.gymhub.authorisation.repository.UserRepository;
+import ru.gymhub.gymhub.authorisation.entity.User;
 
 import java.util.Optional;
 
@@ -29,8 +29,7 @@ public class CustomUserDetailsServiceTest {
     @Test
     void shouldLoadUserByEmail() {
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(
-                User.builder().id(1L).firstName("name").email("email").passwordHash("password cash").isActive(false)
-                        .build()));
+                User.builder().id(1L).email("email").passwordHash("password cash").isActive(false).accType(User.AccountType.CLIENT).role(User.RoleType.CLIENT).build()));
         UserDetails user = service.loadUserByUsername("email");
 
         assertEquals(user.getPassword(), "password cash");
