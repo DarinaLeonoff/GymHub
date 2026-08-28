@@ -1,15 +1,14 @@
 package ru.gymhub.gymhub.authorisation.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginResponse {
-    private String accessToken;
+public class RefreshTokenRequest {
+    @NotBlank
     private String refreshToken;
 }

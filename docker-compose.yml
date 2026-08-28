@@ -31,10 +31,26 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://auth-db:5432/gymhub_auth_db
       SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+
+      SPRING_DATA_REDIS_HOST: auth-redis
+      SPRING_DATA_REDIS_PORT: 6379
+
       JWT_SECRET: ${JWT_SECRET}
     depends_on:
       auth-db:
         condition: service_healthy
+      auth-redis:
+        condition: service_healthy
 
+  auth-redis:
+    image: redis:7-alpine
+    container_name: gymhub-auth-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 volumes:
   auth_db_data:

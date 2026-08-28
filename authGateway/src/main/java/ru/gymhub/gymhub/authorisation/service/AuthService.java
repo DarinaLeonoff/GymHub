@@ -11,8 +11,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.gymhub.gymhub.authorisation.dto.LoginRequest;
 import ru.gymhub.gymhub.authorisation.dto.LoginResponse;
+import ru.gymhub.gymhub.authorisation.dto.RefreshTokenRequest;
 import ru.gymhub.gymhub.authorisation.dto.RegisterRequest;
+import ru.gymhub.gymhub.authorisation.entity.RefreshToken;
 import ru.gymhub.gymhub.authorisation.entity.User;
+import ru.gymhub.gymhub.authorisation.repository.RefreshRepository;
 import ru.gymhub.gymhub.authorisation.repository.UserRepository;
 import ru.gymhub.gymhub.exceptions.NotFoundException;
 import ru.gymhub.gymhub.exceptions.UserAlreadyExistsException;
@@ -24,9 +27,9 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
+    private final RefreshRepository refreshRepository;
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper mapper;
 
@@ -55,5 +58,25 @@ public class AuthService {
         log.info("Access token is {}, refresh token is {}.", accessToken, refreshToken);
 
         return new LoginResponse(accessToken, refreshToken);
+    }
+
+    public LoginResponse refreshToken(RefreshTokenRequest request) {
+        String requestRefreshToken = request.getRefreshToken();
+
+        // 1. Ищем токен в Redis
+        RefreshToken token = refreshRepository.findByToken(requestRefreshToken)
+                .orElseThrow(() -> new IllegalArgumentException("Refresh token is not in database or expired!"));
+
+        // 2. Ищем пользователя
+        User user = userRepository.findById(token.getUserId())
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        // 3. Генерируем новый Access Token
+        String newAccessToken = jwtService.generateAccessToken(user);
+
+        return LoginResponse.builder()
+                .accessToken(newAccessToken)
+                .refreshToken(requestRefreshToken)
+                .build();
     }
 }
