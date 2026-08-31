@@ -3,9 +3,7 @@ package ru.gymhub.gymhub.authorisation.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.gymhub.gymhub.authorisation.dto.LoginRequest;
 import ru.gymhub.gymhub.authorisation.dto.LoginResponse;
 import ru.gymhub.gymhub.authorisation.dto.RefreshTokenRequest;
@@ -13,6 +11,7 @@ import ru.gymhub.gymhub.authorisation.dto.RegisterRequest;
 import ru.gymhub.gymhub.authorisation.service.AuthService;
 
 @RestController
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
@@ -29,8 +28,8 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public LoginResponse refresh(@Valid @RequestBody RefreshTokenRequest request){
-        return  authService.refreshToken(request);
+    public LoginResponse refresh(@Valid @RequestBody RefreshTokenRequest request) {
+        return authService.refreshToken(request);
     }
 
 }
