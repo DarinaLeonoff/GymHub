@@ -20,6 +20,7 @@
 
     <modules>
         <module>authGateway</module>
+        <module>commonSecurity</module>
         <!-- Сюда потом добавится: <module>gymService</module> -->
     </modules>
 

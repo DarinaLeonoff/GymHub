@@ -7,13 +7,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.gymhub.gymhub.authorisation.dto.RegisterRequest;
-import ru.gymhub.gymhub.authorisation.service.AuthService;
-import ru.gymhub.gymhub.authorisation.repository.UserRepository;
-import ru.gymhub.gymhub.authorisation.entity.User;
-import ru.gymhub.gymhub.authorisation.service.UserMapper;
+import ru.gymhub.authorisation.dto.RegisterRequest;
+import ru.gymhub.authorisation.service.AuthService;
+import ru.gymhub.authorisation.repository.UserRepository;
+import ru.gymhub.authorisation.entity.User;
+import ru.gymhub.authorisation.service.UserMapper;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

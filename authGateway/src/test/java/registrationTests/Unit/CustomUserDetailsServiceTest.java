@@ -7,9 +7,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import ru.gymhub.gymhub.authorisation.service.CustomUserDetailsService;
-import ru.gymhub.gymhub.authorisation.repository.UserRepository;
-import ru.gymhub.gymhub.authorisation.entity.User;
+import ru.gymhub.authorisation.service.CustomUserDetailsService;
+import ru.gymhub.authorisation.repository.UserRepository;
+import ru.gymhub.authorisation.entity.User;
 
 import java.util.Optional;
 

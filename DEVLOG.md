@@ -61,21 +61,20 @@ GymHub — это SaaS-платформа, которая позволяет ф�
 ### Sprint 3 — Выделение Auth Service (Архитектура авторизации)
 
 #### 1. Модель данных и сущности Auth Service
-- [ ] Очистить модель User в Auth Service от доменных полей зала/клиентов.
-- [ ] Оставить только учетные данные: `id`, `email`, `password_hash`, `account_type` (`GYM`, `CLIENT`).
-- [ ] Создать Flyway-миграцию для очищенной таблицы `auth_accounts`.
+- [x] Очистить модель User в Auth Service от доменных полей зала/клиентов.
+- [x] Оставить только учетные данные: `id`, `email`, `password_hash`, `account_type` (`GYM`, `CLIENT`).
+- [x] Создать Flyway-миграцию для очищенной таблицы `auth_accounts`.
 
 #### 2. DTO и JWT Claims
-- [ ] Обновить DTO ответа при авторизации (`AuthResponse`: Access Token + Refresh Token).
-- [ ] Расширить генератор JWT (`JwtProvider`):
+- [x] Обновить DTO ответа при авторизации (`AuthResponse`: Access Token + Refresh Token).
+- [x] Расширить генератор JWT (`JwtProvider`):
     - зашивка `account_type`, `roles`, `gym_id`.
-- [ ] Разработать логику Refresh-токенов (хранение в Redis/PostgreSQL).
+- [x] Разработать логику Refresh-токенов (хранение в Redis/PostgreSQL).
 
 #### 3. Эндпоинты авторизации
-- [ ] `POST /api/v1/auth/gym/register` — регистрация администратора/владельца зала.
-- [ ] `POST /api/v1/auth/user/register` — регистрация клиента.
-- [ ] `POST /api/v1/auth/login` — единый вход (возвращает JWT с типом аккаунта и ролями).
-- [ ] `POST /api/v1/auth/refresh` — обновление пары токенов.
+- [x] `POST /api/v1/auth/user/register` — регистрация клиента.
+- [x] `POST /api/v1/auth/login` — единый вход (возвращает JWT с типом аккаунта и ролями).
+- [x] `POST /api/v1/auth/refresh` — обновление пары токенов.
 
 #### 4. Безопасность в дочерних сервисах (например, Gym Service)
 - [ ] Создать переиспользуемый `JwtSecurityFilter` (для чтения и валидации JWT без обращения к Auth DB).

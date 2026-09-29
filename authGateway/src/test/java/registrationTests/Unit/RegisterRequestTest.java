@@ -6,13 +6,10 @@ import jakarta.validation.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
-import ru.gymhub.gymhub.authorisation.dto.RegisterRequest;
-import ru.gymhub.gymhub.authorisation.entity.User;
+import ru.gymhub.authorisation.dto.RegisterRequest;
+import ru.gymhub.authorisation.entity.User;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
