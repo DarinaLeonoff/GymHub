@@ -1,0 +1,11 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+
+logging:
+  level:
+    org.flywaydb: INFO
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
+
+jwt:
+  secret: ${JWT_SECRET}
