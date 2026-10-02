@@ -1,4 +1,4 @@
-package registrationTests.Unit;
+package dto;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;

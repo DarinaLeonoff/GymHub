@@ -1,4 +1,4 @@
-package registrationTests.Unit;
+package service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

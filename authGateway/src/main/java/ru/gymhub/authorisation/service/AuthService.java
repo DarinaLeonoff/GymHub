@@ -61,15 +61,12 @@ public class AuthService {
     public LoginResponse refreshToken(RefreshTokenRequest request) {
         String requestRefreshToken = request.getRefreshToken();
 
-        // 1. Ищем токен в Redis
         RefreshToken token = refreshRepository.findByToken(requestRefreshToken)
                 .orElseThrow(() -> new IllegalArgumentException("Refresh token is not in database or expired!"));
 
-        // 2. Ищем пользователя
         User user = userRepository.findById(token.getUserId())
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
-        // 3. Генерируем новый Access Token
         String newAccessToken = jwtService.generateAccessToken(user);
 
         return LoginResponse.builder()
