@@ -17,6 +17,8 @@ import ru.gymhub.authorisation.dto.RegisterRequest;
 import ru.gymhub.authorisation.entity.User;
 import ru.gymhub.authorisation.service.AuthService;
 import ru.gymhub.authorisation.service.JWTService;
+import ru.gymhub.exceptions.NotFoundException;
+import ru.gymhub.exceptions.UserAlreadyExistsException;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -67,7 +69,7 @@ class AuthControllerTest {
         @DisplayName("Ошибка валидации тела запроса — возвращает 400 Bad Request")
         void register_InvalidBody_ShouldReturn400() throws Exception {
             // Передаем некорректные данные (например, пустой email/пароль)
-            RegisterRequest invalidRequest = new RegisterRequest("", "", null, null);
+            RegisterRequest invalidRequest = new RegisterRequest("", null, null, null);
 
             mockMvc.perform(post("/api/v1/auth/registration")
                             .contentType(String.valueOf(MediaType.APPLICATION_JSON))
@@ -75,6 +77,25 @@ class AuthControllerTest {
                     .andExpect(status().isBadRequest());
 
             verifyNoInteractions(authService);
+        }
+
+        @Test
+        @DisplayName("Пользователь уже существует — возвращает 400 Bad Request и объект Response")
+        void register_UserAlreadyExists_ShouldReturn400AndResponse() throws Exception {
+            RegisterRequest request = new RegisterRequest("test@gymhub.ru", "passworD!123", User.AccountType.CLIENT,
+                    User.RoleType.CLIENT);
+
+            doThrow(new UserAlreadyExistsException("User with this email already registered"))
+                    .when(authService).register(any(RegisterRequest.class));
+
+            mockMvc.perform(post("/api/v1/auth/registration")
+                            .contentType(String.valueOf(MediaType.APPLICATION_JSON))
+                            .content(objectMapper.writeValueAsString(request)))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(jsonPath("$.exception").value(UserAlreadyExistsException.class.getName()))
+                    .andExpect(jsonPath("$.message").value("User with this email already registered"));
+
+            verify(authService, times(1)).register(any(RegisterRequest.class));
         }
     }
 
@@ -118,6 +139,26 @@ class AuthControllerTest {
 
             verifyNoInteractions(authService);
         }
+
+        @Test
+        @DisplayName("Пользователь не найден при входе — возвращает 404 Not Found и объект Response")
+        void login_UserNotFound_ShouldReturn404AndResponse() throws Exception {
+            LoginRequest request = new LoginRequest();
+            request.setEmail("notfound@gymhub.ru");
+            request.setPassword("password123");
+
+            when(authService.login(any(LoginRequest.class)))
+                    .thenThrow(new NotFoundException("User not found"));
+
+            mockMvc.perform(post("/api/v1/auth/login")
+                            .contentType(String.valueOf(MediaType.APPLICATION_JSON))
+                            .content(objectMapper.writeValueAsString(request)))
+                    .andExpect(status().isNotFound())
+                    .andExpect(jsonPath("$.exception").value(NotFoundException.class.getName()))
+                    .andExpect(jsonPath("$.message").value("User not found"));
+
+            verify(authService, times(1)).login(any(LoginRequest.class));
+        }
     }
 
     // ==========================================
@@ -141,6 +182,24 @@ class AuthControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.accessToken").value("new.access.token"))
                     .andExpect(jsonPath("$.refreshToken").value("new.refresh.token"));
+
+            verify(authService, times(1)).refreshToken(any(RefreshTokenRequest.class));
+        }
+
+        @Test
+        @DisplayName("Недействительный refresh токен — возвращает 401 Unauthorized и объект Response")
+        void refresh_InvalidToken_ShouldReturn401AndResponse() throws Exception {
+            RefreshTokenRequest request = new RefreshTokenRequest("invalid.refresh.token");
+
+            when(authService.refreshToken(any(RefreshTokenRequest.class)))
+                    .thenThrow(new IllegalArgumentException("Refresh token not found in Redis"));
+
+            mockMvc.perform(post("/api/v1/auth/refresh")
+                            .contentType(String.valueOf(MediaType.APPLICATION_JSON))
+                            .content(objectMapper.writeValueAsString(request)))
+                    .andExpect(status().isUnauthorized())
+                    .andExpect(jsonPath("$.exception").value(IllegalArgumentException.class.getName()))
+                    .andExpect(jsonPath("$.message").value("Refresh token not found in Redis"));
 
             verify(authService, times(1)).refreshToken(any(RefreshTokenRequest.class));
         }

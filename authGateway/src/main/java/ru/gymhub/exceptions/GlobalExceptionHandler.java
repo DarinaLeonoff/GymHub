@@ -41,4 +41,11 @@ public class GlobalExceptionHandler {
     public Response handleNotFound(NotFoundException e){
         return new Response(e);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+    public Response handleIllegalArgument(IllegalArgumentException e){
+        return new Response(e);
+    }
+
 }

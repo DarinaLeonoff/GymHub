@@ -19,6 +19,7 @@ import ru.gymhub.authorisation.repository.RefreshRepository;
 import ru.gymhub.authorisation.repository.UserRepository;
 import ru.gymhub.authorisation.service.AuthService;
 import ru.gymhub.authorisation.service.JWTService;
+import ru.gymhub.exceptions.NotFoundException;
 import ru.gymhub.exceptions.UserAlreadyExistsException;
 
 import java.util.Optional;
@@ -67,7 +68,9 @@ public class AuthServiceTest {
 
         when(userRepository.findByEmail(request.getEmail())).thenReturn(Optional.of(existingUser));
 
-        assertThrows(UserAlreadyExistsException.class, () -> service.register(request));
+        UserAlreadyExistsException exception = assertThrows(UserAlreadyExistsException.class,
+                () -> service.register(request));
+        assertEquals("User with this email already registered", exception.getMessage());
     }
 
     @Test
@@ -91,6 +94,22 @@ public class AuthServiceTest {
     }
 
     @Test
+    @DisplayName("Пробрасывает исключение 404 если при попытке входа если пользователь не найден.")
+    void shouldThrowNotFoundInLogIn(){
+        LoginRequest request = new LoginRequest();
+        request.setEmail("Email");
+        request.setPassword("Password");
+
+        when(authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()))).thenReturn(mock(Authentication.class));
+
+        when(userRepository.findByEmail(request.getEmail())).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(NotFoundException.class, () -> service.login(request));
+        assertEquals("User not found. Authorization denied", exception.getMessage());
+    }
+
+    @Test
     @DisplayName("При успешном обновления токена должен вернуться объект с двумя токенами")
     void shouldReturnLoginResponseIfSuccessRefresh(){
         RefreshTokenRequest request = new RefreshTokenRequest("RefreshToken");
@@ -104,4 +123,30 @@ public class AuthServiceTest {
         assertEquals("NewAccess", response.getAccessToken());
         assertEquals("RefreshToken", response.getRefreshToken());
     }
+
+    @Test
+    @DisplayName("Пробрасывает исключение 401 если при попытке обновления токена, рефреш-токен не был найден в базе.")
+    void shouldThrowIllegalArgument(){
+        RefreshTokenRequest request = new RefreshTokenRequest();
+        request.setRefreshToken("Refresh.token");
+
+        when(refreshRepository.findByToken(request.getRefreshToken())).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> service.refreshToken(request));
+        assertEquals("Refresh token is not in database or expired!", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Пробрасывает исключение 404 если при попытке обновления токена если пользователь не найден.")
+    void shouldThrowNotFoundRefresh(){
+        RefreshTokenRequest request = new RefreshTokenRequest();
+        request.setRefreshToken("Refresh.token");
+
+        when(refreshRepository.findByToken(request.getRefreshToken())).thenReturn(Optional.of(mock(RefreshToken.class)));
+        when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(NotFoundException.class, () -> service.refreshToken(request));
+        assertEquals("User not found", exception.getMessage());
+    }
+
 }
