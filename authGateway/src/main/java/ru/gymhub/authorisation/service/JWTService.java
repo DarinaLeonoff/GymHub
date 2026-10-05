@@ -53,10 +53,6 @@ public class JWTService {
                 .compact();
     }
 
-    private SecretKey getSignKey() {
-        return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-    }
-
     public String extractUsername(String token) {
         return extractClaims(token).get("email", String.class);
     }
@@ -65,6 +61,10 @@ public class JWTService {
         String username = extractUsername(token);
         return username.equals(userDetails.getUsername())
                 && !isTokenExpired(token);
+    }
+
+    private SecretKey getSignKey() {
+        return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
     private Claims extractClaims(String token) {
