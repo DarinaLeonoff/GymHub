@@ -1,4 +1,4 @@
-package dto;
+package ru.gymhub.authorisation.dto;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;

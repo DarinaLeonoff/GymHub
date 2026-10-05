@@ -1,4 +1,4 @@
-package service;
+package ru.gymhub.authorisation.service;
 
 import org.junit.jupiter.api.Test;
 import ru.gymhub.authorisation.dto.RegisterRequest;

@@ -1,4 +1,4 @@
-package service;
+package ru.gymhub.authorisation.service;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
