@@ -1,7 +1,6 @@
 # GymHub
 
 Backend platform for managing fitness clubs, memberships, trainers and training sessions.
-
 ---
 
 ## Project Overview
@@ -80,10 +79,11 @@ Core entities:
 - Mockito
 - DataJpaTest
 - Testconteiners
+- Jacoco
 
 ### Infrastructure
 
-- Docker (planned)
+- Docker
 - GitHub Actions (planned)
 
 ---
@@ -160,7 +160,7 @@ src/main/resources/db/migration
 
 ### Schema
 
-TODO
+![img.png](img.png)
 
 ---
 
@@ -174,7 +174,14 @@ mvn test
 
 ### Coverage
 
-TODO
+Test coverage is configured and measured using JaCoCo. To generate the code coverage report, run:
+
+```bash
+mvn clean test
+```
+
+The report will be available at:
+target/site/jacoco/index.html
 
 ---
 
