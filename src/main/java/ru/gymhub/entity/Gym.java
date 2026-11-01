@@ -11,14 +11,14 @@ import lombok.*;
 @Getter
 @Setter
 public class Gym {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String name;
-    private String description;
-    private String address;
+  private String name;
+  private String description;
+  private String address;
 
-    private String tel;
-    private String email;
+  private String tel;
+  private String email;
 }

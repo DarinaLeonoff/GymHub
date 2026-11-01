@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class GymDto {
-    private Long id;
+  private Long id;
 
-    private String name;
-    private String description;
-    private String address;
+  private String name;
+  private String description;
+  private String address;
 
-    private String tel;
-    private String email;
+  private String tel;
+  private String email;
 }

@@ -10,22 +10,18 @@ import ru.gymhub.annotation.TelNumber;
 @Builder
 @Data
 public class CreateGymRequest {
-    @NotBlank
-    @Size(min = 1, max = 50)
-    private String name;
+  @NotBlank
+  @Size(min = 1, max = 50)
+  private String name;
 
-    @Size(max = 500)
-    private String description;
+  @Size(max = 500)
+  private String description;
 
-    @NotBlank
-    @Size(min = 1, max = 500)
-    private String address;
+  @NotBlank
+  @Size(min = 1, max = 500)
+  private String address;
 
-    @TelNumber
-    @NotBlank
-    private String tel;
+  @TelNumber @NotBlank private String tel;
 
-    @Email
-    @NotBlank
-    private String email;
+  @Email @NotBlank private String email;
 }

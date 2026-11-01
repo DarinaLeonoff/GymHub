@@ -1,5 +1,9 @@
 package ru.gymhub.controller;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -10,29 +14,21 @@ import ru.gymhub.dto.GymDto;
 import ru.gymhub.dto.UpdateGymRequest;
 import ru.gymhub.service.GymService;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @WebMvcTest(GymProfileController.class)
 public class GymProfileControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @MockitoBean
-    private GymService gymService;
+  @MockitoBean private GymService gymService;
 
-    @Test
-    void testPut() throws Exception {
-        String jsonPayload = "{\"name\": \"new name\"}";
-        UpdateGymRequest req = UpdateGymRequest.builder().name("new name").build();
+  @Test
+  void testPut() throws Exception {
+    String jsonPayload = "{\"name\": \"new name\"}";
+    UpdateGymRequest req = UpdateGymRequest.builder().name("new name").build();
 
-        when(gymService.updateGymInfo(1L, req)).thenReturn(new GymDto());
+    when(gymService.updateGymInfo(1L, req)).thenReturn(new GymDto());
 
-        mockMvc.perform(put("/gym/profile")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonPayload))
-                .andExpect(status().isOk());
-    }
+    mockMvc
+        .perform(put("/gym/profile").contentType(MediaType.APPLICATION_JSON).content(jsonPayload))
+        .andExpect(status().isOk());
+  }
 }
-

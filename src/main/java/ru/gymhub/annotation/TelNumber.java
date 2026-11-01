@@ -2,7 +2,6 @@ package ru.gymhub.annotation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-
 import java.lang.annotation.*;
 
 @Documented
@@ -10,9 +9,10 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TelNumber {
-    String message() default "Некорректный номер телефона. Поддерживаемый формат: +7XXXXXXXXXX или 8XXXXXXXXXX";
+  String message() default
+      "Некорректный номер телефона. Поддерживаемый формат: +7XXXXXXXXXX или 8XXXXXXXXXX";
 
-    Class<?>[] groups() default {};
+  Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+  Class<? extends Payload>[] payload() default {};
 }
