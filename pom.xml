@@ -125,6 +125,11 @@
             <version>1.20.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -134,12 +139,15 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
-                    <!-- Передаем параметры и для Docker, и сохраняем argLine от JaCoCo -->
-                    <argLine>@{argLine} -Xmx1024m</argLine>
+                    <argLine>${surefireArgLine} -Xmx1024m</argLine>
                     <environmentVariables>
                         <DOCKER_HOST>unix:///home/dleonova/.docker/desktop/docker.sock</DOCKER_HOST>
                         <DOCKER_API_VERSION>1.41</DOCKER_API_VERSION>
                     </environmentVariables>
+                    <failIfNoTests>false</failIfNoTests>
+                    <testFailureIgnore>false</testFailureIgnore>
+                    <forkCount>2</forkCount>
+                    <argLine>${surefireArgLine}</argLine>
                     <systemPropertyVariables>
                         <testcontainers.docker.client.transport>org.testcontainers.dockerclient.TransportProvider
                         </testcontainers.docker.client.transport>
@@ -184,16 +192,22 @@
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
+                        <configuration>
+                            <propertyName>surefireArgLine</propertyName>
+                        </configuration>
                     </execution>
+
                     <execution>
                         <id>report</id>
-                        <phase>test</phase>
+                        <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
                     </execution>
+
                     <execution>
                         <id>check</id>
+                        <phase>verify</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
@@ -203,9 +217,9 @@
                                     <element>BUNDLE</element>
                                     <limits>
                                         <limit>
-                                            <counter>INSTRUCTION</counter>
+                                            <counter>COMPLEXITY</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.60</minimum>
+                                            <minimum>0.70</minimum>
                                         </limit>
                                     </limits>
                                 </rule>

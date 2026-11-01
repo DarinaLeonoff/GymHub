@@ -16,7 +16,7 @@ import ru.gymhub.service.GymService;
 @RestController
 @RequestMapping("/gym/profile")
 @RequiredArgsConstructor
-public class GymController {
+public class GymProfileController {
     private final GymService service;
     @PostMapping
     @Operation(
@@ -77,7 +77,7 @@ public class GymController {
 
     public GymDto updateGymInfo(@Valid @RequestBody UpdateGymRequest dto) throws ChangeSetPersister.NotFoundException {
 //      default id = 1
-        long id = 1;
+        Long id = 1L;
         return service.updateGymInfo(id, dto);
     }
 
