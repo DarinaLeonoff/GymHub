@@ -66,8 +66,7 @@ public class GymProfileController {
             description = "Доступ запрещен (недостаточно прав)",
             content = @Content)
       })
-  public GymDto updateGymInfo(@PathVariable Long id, @Valid @RequestBody UpdateGymRequest dto)
-      throws ChangeSetPersister.NotFoundException {
+  public GymDto updateGymInfo(@PathVariable Long id, @Valid @RequestBody UpdateGymRequest dto) {
     return service.updateGymInfo(id, dto);
   }
 
