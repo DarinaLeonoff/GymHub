@@ -1,0 +1,31 @@
+meta {
+  name: Fail Update - Name Exceeds Max Length
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{baseUrl}}{{gymProfile}}/1
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+  "name":
+  "VeryLongNameThatExceedsTheMaximumAllowedLimitSetInValidationRulesAndShouldTriggerAB
+  adRequestErrorBySpringFrameworkValidationMechanism"
+  }
+}
+
+script:post-response {
+  test("status code is 400", function() {
+  expect(res.status).to.equal(400);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

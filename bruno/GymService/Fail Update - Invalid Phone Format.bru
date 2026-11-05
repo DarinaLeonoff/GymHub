@@ -1,0 +1,29 @@
+meta {
+  name: Fail Update - Invalid Phone Format
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{baseUrl}}{{gymProfile}}/1
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+  "tel": "abc-phone"
+  }
+}
+
+script:post-response {
+  test("status code is 400", function() {
+  expect(res.status).to.equal(400);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

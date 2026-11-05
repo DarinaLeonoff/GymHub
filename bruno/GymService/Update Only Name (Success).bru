@@ -1,0 +1,34 @@
+meta {
+  name: Update Only Name (Success)
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{baseUrl}}{{gymProfile}}/1
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+  "name": "Updated Gym Name333"
+  }
+  
+}
+
+script:post-response {
+  test("status code is 200", function() {
+  expect(res.status).to.equal(200);
+  });
+  
+  test("name is updated", function() {
+  expect(res.body.name).to.equal("Updated Gym Name333");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

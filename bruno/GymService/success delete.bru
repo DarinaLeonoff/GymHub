@@ -1,0 +1,27 @@
+meta {
+  name: success delete
+  type: http
+  seq: 8
+}
+
+delete {
+  url: {{baseUrl}}{{gymProfile}}/1
+  body: none
+  auth: inherit
+}
+
+script:post-response {
+  test("status code is 500", function() {
+  expect(res.status).to.equal(500);
+  });
+  
+  test("Can not delete default gym.", function() {
+  expect(res.getBody().message).to.equal("It is default gym that can't be deleted.");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
