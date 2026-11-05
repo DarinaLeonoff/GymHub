@@ -15,7 +15,7 @@ jobs:
         image: postgres:16
         env:
           POSTGRES_DB: gym_db
-          POSTGRES_USER: gymhub
+          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: 123456
         ports:
           - 5432:5432
