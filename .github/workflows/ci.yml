@@ -10,6 +10,26 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: gymhub
+          POSTGRES_USER: gymhub
+          POSTGRES_PASSWORD: gymhub
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U gymhub -d gymhub"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/gymhub
+      SPRING_DATASOURCE_USERNAME: gymhub
+      SPRING_DATASOURCE_PASSWORD: gymhub
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
