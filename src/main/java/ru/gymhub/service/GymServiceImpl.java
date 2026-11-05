@@ -2,7 +2,6 @@ package ru.gymhub.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import ru.gymhub.dto.CreateGymRequest;
 import ru.gymhub.dto.GymDto;
@@ -35,7 +34,7 @@ public class GymServiceImpl implements GymService {
 
   @Override
   public void deleteGym(Long id) {
-    if(id == 1){
+    if (id == 1) {
       log.info("Nice try. It is default gym that can't be deleted.");
       throw new IllegalArgumentException("It is default gym that can't be deleted.");
     }

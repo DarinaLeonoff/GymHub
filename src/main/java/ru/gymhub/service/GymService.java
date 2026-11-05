@@ -1,6 +1,5 @@
 package ru.gymhub.service;
 
-import org.springframework.data.crossstore.ChangeSetPersister;
 import ru.gymhub.dto.CreateGymRequest;
 import ru.gymhub.dto.GymDto;
 import ru.gymhub.dto.UpdateGymRequest;

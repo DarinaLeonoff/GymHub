@@ -7,51 +7,56 @@ import ru.gymhub.dto.GymDto;
 import ru.gymhub.entity.Gym;
 
 public class GymMapperTest {
-    private GymMapperImpl mapper = new GymMapperImpl();
+  private GymMapperImpl mapper = new GymMapperImpl();
 
-    @Test
-    void createRequestToGym_shouldReturnNullIfRequestNull(){
-        CreateGymRequest request = null;
+  @Test
+  void createRequestToGym_shouldReturnNullIfRequestNull() {
+    CreateGymRequest request = null;
 
-        Gym gym = mapper.createRequestToGym(request);
+    Gym gym = mapper.createRequestToGym(request);
 
-        Assertions.assertNull(gym);
-    }
+    Assertions.assertNull(gym);
+  }
 
-    @Test
-    void createRequestToGym_shouldConvertRequestToGym(){
-        CreateGymRequest request =
-                CreateGymRequest.builder().name("name").description("desc").address("address").tel("tel").email(
-                        "email").build();
+  @Test
+  void createRequestToGym_shouldConvertRequestToGym() {
+    CreateGymRequest request =
+        CreateGymRequest.builder()
+            .name("name")
+            .description("desc")
+            .address("address")
+            .tel("tel")
+            .email("email")
+            .build();
 
-        Gym gym = mapper.createRequestToGym(request);
+    Gym gym = mapper.createRequestToGym(request);
 
-        Assertions.assertEquals(request.getName(), gym.getName());
-        Assertions.assertEquals(request.getDescription(), gym.getDescription());
-        Assertions.assertEquals(request.getAddress(), gym.getAddress());
-        Assertions.assertEquals(request.getTel(), gym.getTel());
-        Assertions.assertEquals(request.getEmail(), gym.getEmail());
-    }
+    Assertions.assertEquals(request.getName(), gym.getName());
+    Assertions.assertEquals(request.getDescription(), gym.getDescription());
+    Assertions.assertEquals(request.getAddress(), gym.getAddress());
+    Assertions.assertEquals(request.getTel(), gym.getTel());
+    Assertions.assertEquals(request.getEmail(), gym.getEmail());
+  }
 
-    @Test
-    void gymToDto_shouldReturnNullIfRequestNull(){
-        Gym gym = null;
+  @Test
+  void gymToDto_shouldReturnNullIfRequestNull() {
+    Gym gym = null;
 
-        GymDto dto = mapper.gymToDto(gym);
+    GymDto dto = mapper.gymToDto(gym);
 
-        Assertions.assertNull(dto);
-    }
+    Assertions.assertNull(dto);
+  }
 
-    @Test
-    void gymToDto_shouldConvertGymToDto(){
-        Gym gym = new Gym(1L, "name", "desc", "address", "tel", "email");
+  @Test
+  void gymToDto_shouldConvertGymToDto() {
+    Gym gym = new Gym(1L, "name", "desc", "address", "tel", "email");
 
-        GymDto dto = mapper.gymToDto(gym);
+    GymDto dto = mapper.gymToDto(gym);
 
-        Assertions.assertEquals(gym.getName(), dto.getName());
-        Assertions.assertEquals(gym.getDescription(), dto.getDescription());
-        Assertions.assertEquals(gym.getAddress(), dto.getAddress());
-        Assertions.assertEquals(gym.getTel(), dto.getTel());
-        Assertions.assertEquals(gym.getEmail(), dto.getEmail());
-    }
+    Assertions.assertEquals(gym.getName(), dto.getName());
+    Assertions.assertEquals(gym.getDescription(), dto.getDescription());
+    Assertions.assertEquals(gym.getAddress(), dto.getAddress());
+    Assertions.assertEquals(gym.getTel(), dto.getTel());
+    Assertions.assertEquals(gym.getEmail(), dto.getEmail());
+  }
 }
