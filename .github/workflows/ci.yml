@@ -26,9 +26,9 @@ jobs:
           --health-retries 5
 
     env:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/gymhub
-      SPRING_DATASOURCE_USERNAME: gymhub
-      SPRING_DATASOURCE_PASSWORD: gymhub
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/gym_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123456
 
     steps:
       - name: Checkout repository
