@@ -44,7 +44,7 @@ public class GymProfileController {
     return service.createGym(dto);
   }
 
-  @PutMapping
+  @PutMapping("/{id}")
   @Operation(
       summary = "Обновление информации о зале",
       description =
@@ -66,15 +66,66 @@ public class GymProfileController {
             description = "Доступ запрещен (недостаточно прав)",
             content = @Content)
       })
-  public GymDto updateGymInfo(@Valid @RequestBody UpdateGymRequest dto)
+  public GymDto updateGymInfo(@PathVariable Long id, @Valid @RequestBody UpdateGymRequest dto)
       throws ChangeSetPersister.NotFoundException {
-    //      default id = 1
-    Long id = 1L;
     return service.updateGymInfo(id, dto);
   }
 
-  // todo get profile
+    @GetMapping("/{id}")
+    @Operation(
+            summary = "Получение информации о зале",
+            description =
+                    "Позволяет получить общую информацию о тренажерном зале (описание, контакты и т.д.).")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Информация успешно получена"),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Некорректные данные в запросе",
+                            content = @Content // Можно указать схему ошибки, если есть DTO
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Пользователь не авторизован",
+                            content = @Content),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Доступ запрещен (недостаточно прав)",
+                            content = @Content)
+            })
+    public GymDto getGymInfo(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {
+        return service.getGymInfo(id);
+    }
 
-  // todo deactivate gym
+
+    @DeleteMapping("/{id}")
+    @Operation(
+            summary = "Удаление зала",
+            description =
+                    "Позволяет удалить всю информацию о зале.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Информация успешно удалена"),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Некорректные данные в запросе",
+                            content = @Content // Можно указать схему ошибки, если есть DTO
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Пользователь не авторизован",
+                            content = @Content),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Доступ запрещен (недостаточно прав)",
+                            content = @Content),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Неверный аргумент(id). Попытка удалить дэфолтный зал.",
+                            content = @Content)
+            })
+    public void deleteGym(@PathVariable Long id) {
+        service.deleteGym(id);
+    }
 
 }

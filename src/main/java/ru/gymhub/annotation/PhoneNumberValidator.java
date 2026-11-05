@@ -14,7 +14,7 @@ public class PhoneNumberValidator implements ConstraintValidator<TelNumber, Stri
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {
     if (value == null || value.isBlank()) {
-      return true; // Валидацию пустых значений лучше доверять аннотациям @NotNull / @NotBlank
+      return true;
     }
     return PATTERN.matcher(value.trim()).matches();
   }

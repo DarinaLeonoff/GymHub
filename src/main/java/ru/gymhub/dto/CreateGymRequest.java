@@ -3,12 +3,16 @@ package ru.gymhub.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.gymhub.annotation.TelNumber;
 
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateGymRequest {
   @NotBlank
   @Size(min = 1, max = 50)

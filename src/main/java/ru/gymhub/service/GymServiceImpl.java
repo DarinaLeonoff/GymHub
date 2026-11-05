@@ -8,6 +8,7 @@ import ru.gymhub.dto.CreateGymRequest;
 import ru.gymhub.dto.GymDto;
 import ru.gymhub.dto.UpdateGymRequest;
 import ru.gymhub.entity.Gym;
+import ru.gymhub.exceptions.exceptions.GymNotFoundException;
 import ru.gymhub.repository.GymRepository;
 
 @Slf4j
@@ -23,16 +24,26 @@ public class GymServiceImpl implements GymService {
   }
 
   @Override
-  public GymDto updateGymInfo(Long id, UpdateGymRequest dto)
-      throws ChangeSetPersister.NotFoundException {
-    log.info("updating gym: {}", dto.getName());
-    GymDto gymDto = mapper.gymToDto(update(id, dto));
-    log.info("updated name: {}", gymDto.getName());
-    return gymDto;
+  public GymDto updateGymInfo(Long id, UpdateGymRequest dto) {
+    return mapper.gymToDto(repository.save(update(id, dto)));
   }
 
-  private Gym update(Long id, UpdateGymRequest dto) throws ChangeSetPersister.NotFoundException {
-    Gym gym = repository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
+  @Override
+  public GymDto getGymInfo(Long id) {
+    return mapper.gymToDto(getById(id));
+  }
+
+  @Override
+  public void deleteGym(Long id) {
+    if(id == 1){
+      log.info("Nice try. It is default gym that can't be deleted.");
+      throw new IllegalArgumentException("It is default gym that can't be deleted.");
+    }
+    repository.deleteById(id);
+  }
+
+  private Gym update(Long id, UpdateGymRequest dto) {
+    Gym gym = getById(id);
 
     String name = dto.getName();
     if (name != null && !gym.getName().equals(name)) {
@@ -59,5 +70,9 @@ public class GymServiceImpl implements GymService {
       gym.setTel(tel);
     }
     return gym;
+  }
+
+  private Gym getById(Long id) {
+    return repository.findById(id).orElseThrow(() -> new GymNotFoundException(id));
   }
 }
