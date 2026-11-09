@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/gym_db
-    username: postgres
-    password: 123456
+    url: jdbc:postgresql://localhost:5432/${GYM_DB_NAME}
+    username: ${GYM_DB_USERNAME}
+    password: ${GYM_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
