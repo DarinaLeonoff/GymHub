@@ -1,8 +1,8 @@
 package ru.gymhub.service;
 
-import ru.gymhub.dto.CreateGymRequest;
+import ru.gymhub.dto.request.CreateGymRequest;
 import ru.gymhub.dto.GymDto;
-import ru.gymhub.dto.UpdateGymRequest;
+import ru.gymhub.dto.request.UpdateGymRequest;
 
 public interface GymService {
   GymDto createGym(CreateGymRequest dto);

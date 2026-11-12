@@ -8,9 +8,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.web.bind.annotation.*;
-import ru.gymhub.dto.CreateGymRequest;
+import ru.gymhub.dto.request.CreateGymRequest;
 import ru.gymhub.dto.GymDto;
-import ru.gymhub.dto.UpdateGymRequest;
+import ru.gymhub.dto.request.UpdateGymRequest;
 import ru.gymhub.service.GymService;
 
 @RestController

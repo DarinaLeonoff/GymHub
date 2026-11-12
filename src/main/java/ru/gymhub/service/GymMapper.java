@@ -1,7 +1,7 @@
 package ru.gymhub.service;
 
 import org.mapstruct.Mapper;
-import ru.gymhub.dto.CreateGymRequest;
+import ru.gymhub.dto.request.CreateGymRequest;
 import ru.gymhub.dto.GymDto;
 import ru.gymhub.entity.Gym;
 

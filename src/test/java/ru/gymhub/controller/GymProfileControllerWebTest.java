@@ -14,9 +14,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.gymhub.dto.CreateGymRequest;
+import ru.gymhub.dto.request.CreateGymRequest;
 import ru.gymhub.dto.GymDto;
-import ru.gymhub.dto.UpdateGymRequest;
+import ru.gymhub.dto.request.UpdateGymRequest;
 import ru.gymhub.service.GymService;
 
 @WebMvcTest(GymProfileController.class)

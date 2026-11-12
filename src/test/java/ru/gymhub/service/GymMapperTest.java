@@ -2,7 +2,7 @@ package ru.gymhub.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.gymhub.dto.CreateGymRequest;
+import ru.gymhub.dto.request.CreateGymRequest;
 import ru.gymhub.dto.GymDto;
 import ru.gymhub.entity.Gym;
 
