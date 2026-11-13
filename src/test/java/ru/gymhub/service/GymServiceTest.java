@@ -11,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.crossstore.ChangeSetPersister;
-import ru.gymhub.dto.request.CreateGymRequest;
 import ru.gymhub.dto.GymDto;
 import ru.gymhub.dto.request.UpdateGymRequest;
 import ru.gymhub.entity.Gym;
@@ -49,26 +48,6 @@ public class GymServiceTest {
 
     // Assert: проверяем, что репозиторий попытался удалить этот id
     verify(repository, times(1)).deleteById(gymId);
-  }
-
-  // --- Тесты для создания (createGym) ---
-
-  @Test
-  void createGym_shouldSaveAndReturnDto() {
-    CreateGymRequest request = new CreateGymRequest();
-    Gym gymEntity = new Gym();
-    Gym savedEntity = new Gym();
-    GymDto expectedDto = new GymDto();
-
-    when(mapper.createRequestToGym(request)).thenReturn(gymEntity);
-    when(repository.save(gymEntity)).thenReturn(savedEntity);
-    when(mapper.gymToDto(savedEntity)).thenReturn(expectedDto);
-
-    GymDto actualDto = gymService.createGym(request);
-
-    assertNotNull(actualDto);
-    assertEquals(expectedDto, actualDto);
-    verify(repository, times(1)).save(gymEntity);
   }
 
   // --- Тесты для получения информации (getGymInfo) ---

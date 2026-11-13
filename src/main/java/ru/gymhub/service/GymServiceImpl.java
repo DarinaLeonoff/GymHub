@@ -3,7 +3,6 @@ package ru.gymhub.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.gymhub.dto.request.CreateGymRequest;
 import ru.gymhub.dto.GymDto;
 import ru.gymhub.dto.request.UpdateGymRequest;
 import ru.gymhub.entity.Gym;
@@ -16,15 +15,6 @@ import ru.gymhub.repository.GymRepository;
 public class GymServiceImpl implements GymService {
   private final GymMapper mapper;
   private final GymRepository repository;
-
-  @Override
-  public GymDto createGym(CreateGymRequest dto) {
-    Gym gym = mapper.createRequestToGym(dto);
-    gym.setPassHash(dto.getPassHash());
-    log.info("gym pass hash {}", dto.getPassHash());
-    log.info("gym pass hash {}", gym.getPassHash());
-    return mapper.gymToDto(repository.save(gym));
-  }
 
   @Override
   public GymDto updateGymInfo(Long id, UpdateGymRequest dto) {

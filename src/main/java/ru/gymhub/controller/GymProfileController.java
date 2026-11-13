@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.web.bind.annotation.*;
-import ru.gymhub.dto.request.CreateGymRequest;
 import ru.gymhub.dto.GymDto;
 import ru.gymhub.dto.request.UpdateGymRequest;
 import ru.gymhub.service.GymService;
@@ -18,31 +17,6 @@ import ru.gymhub.service.GymService;
 @RequiredArgsConstructor
 public class GymProfileController {
   private final GymService service;
-
-  @PostMapping
-  @Operation(
-      summary = "Создание профиля зала",
-      description = "Позволяет создать карточку зала со всей базовой информацией")
-  @ApiResponses(
-      value = {
-        @ApiResponse(responseCode = "200", description = "Информация успешно обновлена"),
-        @ApiResponse(
-            responseCode = "400",
-            description = "Некорректные данные в запросе",
-            content = @Content // Можно указать схему ошибки, если есть DTO
-            ),
-        @ApiResponse(
-            responseCode = "401",
-            description = "Пользователь не авторизован",
-            content = @Content),
-        @ApiResponse(
-            responseCode = "403",
-            description = "Доступ запрещен (недостаточно прав)",
-            content = @Content)
-      })
-  public GymDto createGymInfo(@Valid @RequestBody CreateGymRequest dto) {
-    return service.createGym(dto);
-  }
 
   @PutMapping("/{id}")
   @Operation(

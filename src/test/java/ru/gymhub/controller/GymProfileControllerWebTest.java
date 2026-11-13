@@ -14,7 +14,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.gymhub.dto.request.CreateGymRequest;
 import ru.gymhub.dto.GymDto;
 import ru.gymhub.dto.request.UpdateGymRequest;
 import ru.gymhub.service.GymService;
@@ -28,70 +27,6 @@ class GymProfileControllerWebTest {
   @Autowired private ObjectMapper objectMapper;
 
   @MockitoBean private GymService service;
-
-  // ---------- CREATE ----------
-
-  @Test
-  void createGymInfo_shouldReturnGymDto() throws Exception {
-
-    CreateGymRequest request =
-        CreateGymRequest.builder()
-            .name("GymHub")
-            .description("Modern fitness center")
-            .address("Moscow, Lenina 10")
-            .tel("+79991234567")
-            .email("gymhub@example.com")
-            .build();
-
-    GymDto response =
-        GymDto.builder()
-            .id(1L)
-            .name("GymHub")
-            .description("Modern fitness center")
-            .address("Moscow, Lenina 10")
-            .tel("+79991234567")
-            .email("gymhub@example.com")
-            .build();
-
-    when(service.createGym(any(CreateGymRequest.class))).thenReturn(response);
-
-    mockMvc
-        .perform(
-            post("/gym/profile")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.id").value(1))
-        .andExpect(jsonPath("$.name").value("GymHub"))
-        .andExpect(jsonPath("$.description").value("Modern fitness center"))
-        .andExpect(jsonPath("$.address").value("Moscow, Lenina 10"))
-        .andExpect(jsonPath("$.tel").value("+79991234567"))
-        .andExpect(jsonPath("$.email").value("gymhub@example.com"));
-
-    verify(service).createGym(any(CreateGymRequest.class));
-  }
-
-  @Test
-  void createGymInfo_withInvalidData_shouldReturn400() throws Exception {
-
-    CreateGymRequest request =
-        CreateGymRequest.builder()
-            .name("")
-            .description("Description")
-            .address("Moscow, Lenina 10")
-            .tel("+79991234567")
-            .email("gymhub@example.com")
-            .build();
-
-    mockMvc
-        .perform(
-            post("/gym/profile")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-        .andExpect(status().isBadRequest());
-
-    verifyNoInteractions(service);
-  }
 
   // ---------- UPDATE ----------
 
