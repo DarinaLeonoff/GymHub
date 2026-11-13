@@ -20,5 +20,7 @@ public class Gym {
   private String address;
 
   private String tel;
+
   private String email;
+  private String passHash;
 }

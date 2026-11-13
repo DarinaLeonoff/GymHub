@@ -28,4 +28,6 @@ public class CreateGymRequest {
   @TelNumber @NotBlank private String tel;
 
   @Email @NotBlank private String email;
+
+  private String passHash = "password";
 }
