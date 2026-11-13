@@ -29,5 +29,5 @@ public class CreateGymRequest {
 
   @Email @NotBlank private String email;
 
-  private String passHash = "password";
+  private String passHash = "password@12";
 }

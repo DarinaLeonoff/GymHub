@@ -116,7 +116,7 @@ public class GymServiceTest {
             .tel("1tel")
             .email("1email")
             .build();
-    Gym gymEntity = new Gym(1L, "name", "desc", "address", "tel", "email");
+    Gym gymEntity = new Gym(1L, "name", "desc", "address", "tel", "email", "passhash");
     GymDto expectedDto =
         new GymDto(
             gymEntity.getId(),
@@ -165,7 +165,7 @@ public class GymServiceTest {
             .tel("tel")
             .email("email")
             .build();
-    Gym gymEntity = new Gym(1L, "name", "desc", "address", "tel", "email");
+    Gym gymEntity = new Gym(1L, "name", "desc", "address", "tel", "email", "passhash");
     GymDto expectedDto =
         new GymDto(
             gymEntity.getId(),

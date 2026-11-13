@@ -21,7 +21,7 @@ import ru.gymhub.service.GymService;
 
 @WebMvcTest(GymProfileController.class)
 @AutoConfigureMockMvc(addFilters = false)
-class GymProfileControllerTest {
+class GymProfileControllerWebTest {
 
   @Autowired private MockMvc mockMvc;
 

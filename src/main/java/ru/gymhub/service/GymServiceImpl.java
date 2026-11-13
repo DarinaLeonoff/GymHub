@@ -19,7 +19,11 @@ public class GymServiceImpl implements GymService {
 
   @Override
   public GymDto createGym(CreateGymRequest dto) {
-    return mapper.gymToDto(repository.save(mapper.createRequestToGym(dto)));
+    Gym gym = mapper.createRequestToGym(dto);
+    gym.setPassHash(dto.getPassHash());
+    log.info("gym pass hash {}", dto.getPassHash());
+    log.info("gym pass hash {}", gym.getPassHash());
+    return mapper.gymToDto(repository.save(gym));
   }
 
   @Override

@@ -4,4 +4,7 @@ public class GymNotFoundException extends RuntimeException {
   public GymNotFoundException(Long id) {
     super("Gym not found with id: " + id);
   }
+  public GymNotFoundException(String email) {
+    super("Gym not found with email: " + email);
+  }
 }

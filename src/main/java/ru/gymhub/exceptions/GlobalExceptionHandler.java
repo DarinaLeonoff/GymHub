@@ -7,6 +7,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.gymhub.exceptions.exceptions.WrongPasswordException;
+import ru.gymhub.exceptions.exceptions.EmailAlreadyRegisteredException;
 import ru.gymhub.exceptions.exceptions.GymNotFoundException;
 
 @RestControllerAdvice
@@ -30,4 +32,19 @@ public class GlobalExceptionHandler {
 
     return ResponseEntity.badRequest().body(Map.of("message", message));
   }
+
+  @ExceptionHandler(WrongPasswordException.class)
+  public ResponseEntity<String> handleAuthFail(
+          WrongPasswordException ex) {
+
+    return ResponseEntity.badRequest().body(ex.getMessage());
+  }
+
+  @ExceptionHandler(EmailAlreadyRegisteredException.class)
+  public ResponseEntity<String> handleEmailRegistrationFail(
+          EmailAlreadyRegisteredException ex) {
+
+    return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+  }
+
 }

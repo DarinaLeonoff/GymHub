@@ -1,0 +1,5 @@
+ALTER TABLE gym
+    ADD COLUMN pass_hash VARCHAR(255) NOT NULL;
+
+ALTER TABLE gym
+    ADD CONSTRAINT uk_gym_email UNIQUE (email);
