@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: ru.gymhub.service.GymServiceTest
+-------------------------------------------------------------------------------
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.294 s -- in ru.gymhub.service.GymServiceTest
