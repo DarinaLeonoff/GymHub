@@ -16,3 +16,6 @@ spring:
 
   flyway:
     enabled: true
+
+jwt:
+  secret: 1mz0w6cWXkiANcEgZ1MDZp+fKMdzVb8uLXVs9zMb3qI=

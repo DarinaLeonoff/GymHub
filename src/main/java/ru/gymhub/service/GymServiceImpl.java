@@ -2,11 +2,16 @@ package ru.gymhub.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.gymhub.dto.GymDto;
+import ru.gymhub.dto.request.LoginDto;
+import ru.gymhub.dto.request.RegistrationRequest;
 import ru.gymhub.dto.request.UpdateGymRequest;
 import ru.gymhub.entity.Gym;
+import ru.gymhub.exceptions.exceptions.EmailAlreadyRegisteredException;
 import ru.gymhub.exceptions.exceptions.GymNotFoundException;
+import ru.gymhub.exceptions.exceptions.WrongPasswordException;
 import ru.gymhub.repository.GymRepository;
 
 @Slf4j
@@ -15,6 +20,31 @@ import ru.gymhub.repository.GymRepository;
 public class GymServiceImpl implements GymService {
   private final GymMapper mapper;
   private final GymRepository repository;
+  private final PasswordEncoder encoder;
+
+  @Override
+  public GymDto createGym(RegistrationRequest request) {
+    if(repository.existsByEmail(request.getEmail())){
+      throw new EmailAlreadyRegisteredException();
+    }
+
+    Gym gym = mapper.registrationRequestToEntity(request);
+    gym.setPassHash(encoder.encode(request.getPassword()));
+    return mapper.gymToDto(repository.save(gym));
+  }
+
+  @Override
+  public GymDto login(LoginDto request) {
+    Gym gym =
+            repository.findByEmail(request.getEmail()).orElseThrow(() -> new GymNotFoundException(request.getEmail()));
+    if(!encoder.matches(
+            request.getPassword(),
+            gym.getPassHash()
+    )){
+      throw new WrongPasswordException(request.getEmail());
+    }
+    return mapper.gymToDto(gym);
+  }
 
   @Override
   public GymDto updateGymInfo(Long id, UpdateGymRequest dto) {
@@ -28,10 +58,6 @@ public class GymServiceImpl implements GymService {
 
   @Override
   public void deleteGym(Long id) {
-    if (id == 1) {
-      log.info("Nice try. It is default gym that can't be deleted.");
-      throw new IllegalArgumentException("It is default gym that can't be deleted.");
-    }
     repository.deleteById(id);
   }
 
@@ -68,4 +94,5 @@ public class GymServiceImpl implements GymService {
   private Gym getById(Long id) {
     return repository.findById(id).orElseThrow(() -> new GymNotFoundException(id));
   }
+
 }

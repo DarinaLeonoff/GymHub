@@ -28,18 +28,6 @@ public class GymServiceTest {
   // --- Тесты для удаления (deleteGym) ---
 
   @Test
-  void deleteGym_whenIdIsOne_shouldThrowExceptionAndNotDelete() {
-    // Act & Assert: проверяем, что выбрасывается IllegalArgumentException
-    IllegalArgumentException exception =
-        assertThrows(IllegalArgumentException.class, () -> gymService.deleteGym(1L));
-
-    assertEquals("It is default gym that can't be deleted.", exception.getMessage());
-
-    // Убедимся, что метод удаления репозитория НИКОГДА не вызывался
-    verify(repository, never()).deleteById(any());
-  }
-
-  @Test
   void deleteGym_whenIdIsOther_shouldCallRepositoryDelete() {
     Long gymId = 2L;
 

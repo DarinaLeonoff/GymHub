@@ -14,7 +14,8 @@ import ru.gymhub.dto.request.LoginDto;
 import ru.gymhub.dto.request.RegistrationRequest;
 import ru.gymhub.exceptions.exceptions.EmailAlreadyRegisteredException;
 import ru.gymhub.exceptions.exceptions.WrongPasswordException;
-import ru.gymhub.service.GymAuthService;
+import ru.gymhub.service.AuthService;
+import ru.gymhub.service.GymService;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -33,7 +34,7 @@ public class AuthControllerTest {
     @Autowired private ObjectMapper objectMapper;
 
     @MockitoBean
-    private GymAuthService service;
+    private GymService service;
 
     @Test
     void createGymInfo_shouldReturnGymDto() throws Exception {
@@ -145,7 +146,7 @@ public class AuthControllerTest {
 
         mockMvc
                 .perform(
-                        put("/auth/login")
+                        post("/auth/login")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk());
@@ -166,7 +167,7 @@ public class AuthControllerTest {
 
         mockMvc
                 .perform(
-                        put("/auth/login")
+                        post("/auth/login")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());

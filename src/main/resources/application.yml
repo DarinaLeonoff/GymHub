@@ -16,3 +16,6 @@ spring:
 
   flyway:
     enabled: true
+
+jwt:
+  secret: ${JWT_SECRET}

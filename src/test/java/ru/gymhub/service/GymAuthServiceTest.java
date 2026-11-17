@@ -33,7 +33,7 @@ public class GymAuthServiceTest {
     private PasswordEncoder encoder;
 
     @InjectMocks
-    private GymAuthServiceImpl service;
+    private GymServiceImpl service;
 
     @Test
     void registrationGym_shouldSaveAndReturnDto() {

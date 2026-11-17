@@ -44,7 +44,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
 
-                .httpBasic(withDefaults())
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(withDefaults()))
                 .build();
     }
 

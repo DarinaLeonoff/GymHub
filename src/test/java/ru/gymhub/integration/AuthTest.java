@@ -112,7 +112,7 @@ public class AuthTest {
 
         mockMvc
                 .perform(
-                        put("/auth/login")
+                        post("/auth/login")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(login)))
                 .andExpect(status().isOk())
@@ -141,7 +141,7 @@ public class AuthTest {
 
         mockMvc
                 .perform(
-                        put("/auth/login")
+                        post("/auth/login")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(login)))
                 .andExpect(status().isNotFound());
@@ -163,7 +163,7 @@ public class AuthTest {
 
         mockMvc
                 .perform(
-                        put("/auth/login")
+                        post("/auth/login")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(login)))
                 .andExpect(status().isBadRequest());

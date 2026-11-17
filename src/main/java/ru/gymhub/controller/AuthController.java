@@ -6,18 +6,21 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.gymhub.dto.GymDto;
 import ru.gymhub.dto.request.LoginDto;
 import ru.gymhub.dto.request.RegistrationRequest;
-import ru.gymhub.service.GymAuthService;
+import ru.gymhub.service.GymService;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final GymAuthService service;
+    private final GymService service;
 
     @PostMapping("/registration")
     @Operation(
@@ -41,7 +44,7 @@ public class AuthController {
         return service.createGym(dto);
     }
 
-    @PutMapping("/login")
+    @PostMapping("/login")
     @Operation(
             summary = "Создание профиля зала",
             description = "Позволяет создать карточку зала со всей базовой информацией")
