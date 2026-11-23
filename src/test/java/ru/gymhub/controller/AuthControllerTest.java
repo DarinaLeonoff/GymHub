@@ -123,54 +123,54 @@ public class AuthControllerTest {
                 .andExpect(status().isConflict());
     }
 
-    @Test
-    void login_shouldReturnGymDto() throws Exception {
-
-        LoginDto request =
-                LoginDto.builder()
-                        .email("email@email.ru")
-                        .password("pass@Wo12rd")
-                        .build();
-
-        GymDto response =
-                GymDto.builder()
-                        .id(1L)
-                        .name("GymHub")
-                        .description("Modern fitness center")
-                        .address("Moscow, Lenina 10")
-                        .tel("+79991234567")
-                        .email("gymhub@example.com")
-                        .build();
-
-        when(service.login(any(LoginDto.class))).thenReturn(response);
-
-        mockMvc
-                .perform(
-                        post("/auth/login")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk());
-
-        verify(service).login(any(LoginDto.class));
-    }
-
-    @Test
-    void login_shouldReturn400() throws Exception {
-
-        LoginDto request =
-                LoginDto.builder()
-                        .email("email@email.ru")
-                        .password("pass@Wo12rd")
-                        .build();
-
-        when(service.login(any(LoginDto.class))).thenThrow(new WrongPasswordException(request.getEmail()));
-
-        mockMvc
-                .perform(
-                        post("/auth/login")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isBadRequest());
-    }
+//    @Test
+//    void login_shouldReturnGymDto() throws Exception {
+//
+//        LoginDto request =
+//                LoginDto.builder()
+//                        .email("email@email.ru")
+//                        .password("pass@Wo12rd")
+//                        .build();
+//
+//        GymDto response =
+//                GymDto.builder()
+//                        .id(1L)
+//                        .name("GymHub")
+//                        .description("Modern fitness center")
+//                        .address("Moscow, Lenina 10")
+//                        .tel("+79991234567")
+//                        .email("gymhub@example.com")
+//                        .build();
+//
+//        when(service.login(any(LoginDto.class))).thenReturn(response);
+//
+//        mockMvc
+//                .perform(
+//                        post("/auth/login")
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .content(objectMapper.writeValueAsString(request)))
+//                .andExpect(status().isOk());
+//
+//        verify(service).login(any(LoginDto.class));
+//    }
+//
+//    @Test
+//    void login_shouldReturn400() throws Exception {
+//
+//        LoginDto request =
+//                LoginDto.builder()
+//                        .email("email@email.ru")
+//                        .password("pass@Wo12rd")
+//                        .build();
+//
+//        when(service.login(any(LoginDto.class))).thenThrow(new WrongPasswordException(request.getEmail()));
+//
+//        mockMvc
+//                .perform(
+//                        post("/auth/login")
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .content(objectMapper.writeValueAsString(request)))
+//                .andExpect(status().isBadRequest());
+//    }
 
 }

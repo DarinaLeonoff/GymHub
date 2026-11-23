@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.gymhub.dto.GymDto;
 import ru.gymhub.dto.request.LoginDto;
 import ru.gymhub.dto.request.RegistrationRequest;
+import ru.gymhub.dto.response.LoginResponse;
 import ru.gymhub.service.GymService;
 
 @RestController
@@ -57,7 +58,7 @@ public class AuthController {
                             content = @Content // Можно указать схему ошибки, если есть DTO
                     )
             })
-    public GymDto login(@Valid @RequestBody LoginDto dto) {
+    public LoginResponse login(@Valid @RequestBody LoginDto dto) {
         return service.login(dto);
     }
 }

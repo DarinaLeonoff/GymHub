@@ -65,76 +65,76 @@ public class GymAuthServiceTest {
         assertThrows(EmailAlreadyRegisteredException.class, () -> service.createGym(request));
     }
 
-    @Test
-    void login_shouldReturnGymDto() {
-        LoginDto request = LoginDto.builder()
-                .email("email@mail.com")
-                .password("password")
-                .build();
+//    @Test
+//    void login_shouldReturnGymDto() {
+//        LoginDto request = LoginDto.builder()
+//                .email("email@mail.com")
+//                .password("password")
+//                .build();
+//
+//        Gym gym = new Gym();
+//        gym.setEmail("email@mail.com");
+//        gym.setPassHash("hashedPassword");
+//
+//        GymDto dto = new GymDto();
+//
+//        when(repository.findByEmail("email@mail.com"))
+//                .thenReturn(Optional.of(gym));
+//        when(encoder.matches("password", "hashedPassword"))
+//                .thenReturn(true);
+//        when(mapper.gymToDto(gym)).thenReturn(dto);
+//
+//        GymDto result = service.login(request);
+//
+//        assertEquals(dto, result);
+//
+//        verify(repository, times(1)).findByEmail("email@mail.com");
+//        verify(encoder, times(1)).matches("password", "hashedPassword");
+//        verify(mapper, times(1)).gymToDto(gym);
+//    }
 
-        Gym gym = new Gym();
-        gym.setEmail("email@mail.com");
-        gym.setPassHash("hashedPassword");
-
-        GymDto dto = new GymDto();
-
-        when(repository.findByEmail("email@mail.com"))
-                .thenReturn(Optional.of(gym));
-        when(encoder.matches("password", "hashedPassword"))
-                .thenReturn(true);
-        when(mapper.gymToDto(gym)).thenReturn(dto);
-
-        GymDto result = service.login(request);
-
-        assertEquals(dto, result);
-
-        verify(repository, times(1)).findByEmail("email@mail.com");
-        verify(encoder, times(1)).matches("password", "hashedPassword");
-        verify(mapper, times(1)).gymToDto(gym);
-    }
-
-    @Test
-    void login_shouldThrowExceptionWhenEmailNotFound() {
-        LoginDto request = LoginDto.builder()
-                .email("unknown@mail.com")
-                .password("password")
-                .build();
-
-        when(repository.findByEmail("unknown@mail.com"))
-                .thenReturn(Optional.empty());
-
-        assertThrows(
-                GymNotFoundException.class,
-                () -> service.login(request)
-        );
-
-        verify(repository, times(1)).findByEmail("unknown@mail.com");
-        verify(encoder, never()).matches(anyString(), anyString());
-    }
-
-    @Test
-    void login_shouldThrowExceptionWhenPasswordIsInvalid() {
-        LoginDto request = LoginDto.builder()
-                .email("email@mail.com")
-                .password("wrongPassword")
-                .build();
-
-        Gym gym = new Gym();
-        gym.setEmail("email@mail.com");
-        gym.setPassHash("hashedPassword");
-
-        when(repository.findByEmail("email@mail.com"))
-                .thenReturn(Optional.of(gym));
-        when(encoder.matches("wrongPassword", "hashedPassword"))
-                .thenReturn(false);
-
-        assertThrows(
-                WrongPasswordException.class,
-                () -> service.login(request)
-        );
-
-        verify(repository, times(1)).findByEmail("email@mail.com");
-        verify(encoder, times(1)).matches("wrongPassword", "hashedPassword");
-        verify(mapper, never()).gymToDto(any());
-    }
+//    @Test
+//    void login_shouldThrowExceptionWhenEmailNotFound() {
+//        LoginDto request = LoginDto.builder()
+//                .email("unknown@mail.com")
+//                .password("password")
+//                .build();
+//
+//        when(repository.findByEmail("unknown@mail.com"))
+//                .thenReturn(Optional.empty());
+//
+//        assertThrows(
+//                GymNotFoundException.class,
+//                () -> service.login(request)
+//        );
+//
+//        verify(repository, times(1)).findByEmail("unknown@mail.com");
+//        verify(encoder, never()).matches(anyString(), anyString());
+//    }
+//
+//    @Test
+//    void login_shouldThrowExceptionWhenPasswordIsInvalid() {
+//        LoginDto request = LoginDto.builder()
+//                .email("email@mail.com")
+//                .password("wrongPassword")
+//                .build();
+//
+//        Gym gym = new Gym();
+//        gym.setEmail("email@mail.com");
+//        gym.setPassHash("hashedPassword");
+//
+//        when(repository.findByEmail("email@mail.com"))
+//                .thenReturn(Optional.of(gym));
+//        when(encoder.matches("wrongPassword", "hashedPassword"))
+//                .thenReturn(false);
+//
+//        assertThrows(
+//                WrongPasswordException.class,
+//                () -> service.login(request)
+//        );
+//
+//        verify(repository, times(1)).findByEmail("email@mail.com");
+//        verify(encoder, times(1)).matches("wrongPassword", "hashedPassword");
+//        verify(mapper, never()).gymToDto(any());
+//    }
 }

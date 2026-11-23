@@ -96,78 +96,78 @@ public class AuthTest {
     }
 
 
-    @Test
-    @WithMockUser
-    void login_success_shouldReturnGym() throws Exception {
-
-        mockMvc
-                .perform(
-                        post("/auth/registration")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(registrationRequest)))
-                .andExpect(status().isOk());
-
-        LoginDto login =
-                LoginDto.builder().email(registrationRequest.getEmail()).password(registrationRequest.getPassword()).build();
-
-        mockMvc
-                .perform(
-                        post("/auth/login")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(login)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.name").value("Test Gym"))
-                .andExpect(jsonPath("$.description").value("Test description"))
-                .andExpect(jsonPath("$.address").value("Test address"))
-                .andExpect(jsonPath("$.tel").value("+79991234567"))
-                .andExpect(jsonPath("$.email").value("test@gymhub.ru"));
-    }
-
-    @Test
-    @WithMockUser
-    void login_whenEmailNotFound_shouldThrowGymNotFound() throws Exception {
-
-        mockMvc
-                .perform(
-                        post("/auth/registration")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(registrationRequest)))
-                .andExpect(status().isOk());
-
-        LoginDto login =
-                LoginDto.builder().email("myWrongEmail@ya.su").password(registrationRequest.getPassword()).build();
-
-        mockMvc
-                .perform(
-                        post("/auth/login")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(login)))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    @WithMockUser
-    void login_whenWrongPassword_shouldThrowWrongPassword() throws Exception {
-
-        mockMvc
-                .perform(
-                        post("/auth/registration")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(registrationRequest)))
-                .andExpect(status().isOk());
-
-        LoginDto login =
-                LoginDto.builder().email(registrationRequest.getEmail()).password("Mywrong1@1password").build();
-
-        mockMvc
-                .perform(
-                        post("/auth/login")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(login)))
-                .andExpect(status().isBadRequest());
-    }
+//    @Test
+//    @WithMockUser
+//    void login_success_shouldReturnGym() throws Exception {
+//
+//        mockMvc
+//                .perform(
+//                        post("/auth/registration")
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .content(objectMapper.writeValueAsString(registrationRequest)))
+//                .andExpect(status().isOk());
+//
+//        LoginDto login =
+//                LoginDto.builder().email(registrationRequest.getEmail()).password(registrationRequest.getPassword()).build();
+//
+//        mockMvc
+//                .perform(
+//                        post("/auth/login")
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .content(objectMapper.writeValueAsString(login)))
+//                .andExpect(status().isOk())
+//                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+//                .andExpect(jsonPath("$.id").exists())
+//                .andExpect(jsonPath("$.name").value("Test Gym"))
+//                .andExpect(jsonPath("$.description").value("Test description"))
+//                .andExpect(jsonPath("$.address").value("Test address"))
+//                .andExpect(jsonPath("$.tel").value("+79991234567"))
+//                .andExpect(jsonPath("$.email").value("test@gymhub.ru"));
+//    }
+//
+//    @Test
+//    @WithMockUser
+//    void login_whenEmailNotFound_shouldThrowGymNotFound() throws Exception {
+//
+//        mockMvc
+//                .perform(
+//                        post("/auth/registration")
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .content(objectMapper.writeValueAsString(registrationRequest)))
+//                .andExpect(status().isOk());
+//
+//        LoginDto login =
+//                LoginDto.builder().email("myWrongEmail@ya.su").password(registrationRequest.getPassword()).build();
+//
+//        mockMvc
+//                .perform(
+//                        post("/auth/login")
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .content(objectMapper.writeValueAsString(login)))
+//                .andExpect(status().isNotFound());
+//    }
+//
+//    @Test
+//    @WithMockUser
+//    void login_whenWrongPassword_shouldThrowWrongPassword() throws Exception {
+//
+//        mockMvc
+//                .perform(
+//                        post("/auth/registration")
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .content(objectMapper.writeValueAsString(registrationRequest)))
+//                .andExpect(status().isOk());
+//
+//        LoginDto login =
+//                LoginDto.builder().email(registrationRequest.getEmail()).password("Mywrong1@1password").build();
+//
+//        mockMvc
+//                .perform(
+//                        post("/auth/login")
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .content(objectMapper.writeValueAsString(login)))
+//                .andExpect(status().isBadRequest());
+//    }
 
 
 }

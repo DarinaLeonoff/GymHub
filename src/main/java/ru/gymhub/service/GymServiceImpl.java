@@ -8,6 +8,7 @@ import ru.gymhub.dto.GymDto;
 import ru.gymhub.dto.request.LoginDto;
 import ru.gymhub.dto.request.RegistrationRequest;
 import ru.gymhub.dto.request.UpdateGymRequest;
+import ru.gymhub.dto.response.LoginResponse;
 import ru.gymhub.entity.Gym;
 import ru.gymhub.exceptions.exceptions.EmailAlreadyRegisteredException;
 import ru.gymhub.exceptions.exceptions.GymNotFoundException;
@@ -21,6 +22,7 @@ public class GymServiceImpl implements GymService {
   private final GymMapper mapper;
   private final GymRepository repository;
   private final PasswordEncoder encoder;
+  private final AuthService authService;
 
   @Override
   public GymDto createGym(RegistrationRequest request) {
@@ -34,7 +36,7 @@ public class GymServiceImpl implements GymService {
   }
 
   @Override
-  public GymDto login(LoginDto request) {
+  public LoginResponse login(LoginDto request) {
     Gym gym =
             repository.findByEmail(request.getEmail()).orElseThrow(() -> new GymNotFoundException(request.getEmail()));
     if(!encoder.matches(
@@ -43,7 +45,13 @@ public class GymServiceImpl implements GymService {
     )){
       throw new WrongPasswordException(request.getEmail());
     }
-    return mapper.gymToDto(gym);
+
+    String token = authService.generateToken(gym.getId());
+    return  LoginResponse.builder()
+            .accessToken(token)
+            .tokenType("Bearer")
+            .expiresIn(86400)
+            .build();
   }
 
   @Override
